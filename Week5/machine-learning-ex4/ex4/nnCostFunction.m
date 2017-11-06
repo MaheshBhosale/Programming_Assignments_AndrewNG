@@ -61,25 +61,30 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+%Part 1
+a1 = [ones(size(X, 1), 1) X];
+a2 = sigmoid( Theta1 * a1' );
+size(a1);
+size(a2);
+a2 = [[ones(size(a2, 2), 1)]'; [a2]];
+a3 = sigmoid( Theta2 * a2 );
+size(a3);
 
+%[max, ind] = max(a3); - calculate maximum index i.e. the digit selected
+%h = ind';
 
+h = a3';
 
+for k=1:num_labels
+  yk = y == k;
+  hk = h(:, k);
+  jk = ((1 / m) * sum(-yk .* log( hk ) - (1 - yk) .* log(1 - hk))); 
+  J= J + jk;
+end
+regularization = lambda / (2 * m) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)));
+J = J + regularization;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+grad = [Theta1_grad(:) ; Theta2_grad(:)];
 % -------------------------------------------------------------
 
 % =========================================================================
