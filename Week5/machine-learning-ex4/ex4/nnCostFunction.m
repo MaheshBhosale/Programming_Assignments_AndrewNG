@@ -62,13 +62,15 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 %Part 1
+%yd = eye(num_labels)
+%y = yd(y,:)
 a1 = [ones(size(X, 1), 1) X];
 a2 = sigmoid( Theta1 * a1' );
-size(a1);
-size(a2);
+%size(a1);
+%size(a2);
 a2 = [[ones(size(a2, 2), 1)]'; [a2]];
 a3 = sigmoid( Theta2 * a2 );
-size(a3);
+%size(a3);
 
 %[max, ind] = max(a3); - calculate maximum index i.e. the digit selected
 %h = ind';
@@ -80,17 +82,36 @@ for k=1:num_labels
   hk = h(:, k);
   jk = ((1 / m) * sum(-yk .* log( hk ) - (1 - yk) .* log(1 - hk))); 
   J= J + jk;
-end
+ end
+% =========================================================================
+%Regularization
 regularization = lambda / (2 * m) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)));
 J = J + regularization;
 
-grad = [Theta1_grad(:) ; Theta2_grad(:)];
-% -------------------------------------------------------------
+%Back_propagation
 
-% =========================================================================
+yd = eye(num_labels);
+yk = yd(y, :);
+del1 = zeros(size(Theta1));
+del2 = zeros(size(Theta2));
+a2 = a2';
+a3 = a3';
+
+for i=1:m,
+  a1_i = a1(i, :);
+  a2_i = a2(i, :);
+  a3_i = a3(i, :);
+  y_i = yk(i,:);
+  d3 = a3_i - y_i;
+  d2 = Theta2'*d3' .* sigmoidGradient([1;Theta1 * a1_i']);
+  del1 = del1 + d2(2:end)*a1_i;
+	del2 = del2 + d3' * a2_i; 
+end;
+
+del1 = del1 / m;
+del2 = del2 / m;
+del1(:, 2:end) = del1 (:, 2:end) + lambda /m * Theta1(:, 2:end);
+del2(:, 2:end) = del2 (:, 2:end) + lambda /m * Theta2(:, 2:end);
 
 % Unroll gradients
-grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
-
-end
+grad = [ del1(:); del2(:) ];
