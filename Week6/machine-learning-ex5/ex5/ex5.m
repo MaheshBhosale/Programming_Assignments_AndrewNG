@@ -17,7 +17,6 @@
 
 %% Initialization
 clear ; close all; clc
-
 %% =========== Part 1: Loading and Visualizing Data =============
 %  We start the exercise by first loading and visualizing the dataset. 
 %  The following code will load the dataset into your environment and plot
