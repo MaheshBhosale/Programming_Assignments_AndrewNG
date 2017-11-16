@@ -22,7 +22,8 @@ hx = X * theta;
 n = size(X, 2);
 J = (sum((hx - y) .* (hx - y)))/ (2 * m) + ((sum(sum((theta((2:n),:) .* theta((2:n),:)),2)) * lambda) / ( 2 * m ));
 grad = sum((hx - y) .* X) / m;
-grad(:,(2:n)) = grad(:,(2:n)) + (lambda / m) * theta(2:n)';
+grad = grad + (lambda/m)*[0;theta(2:end,:)]';
+#grad(:,(2:n)) = grad(:,(2:n)) + (lambda / m) * theta(2:n)';
 % =========================================================================
 grad = grad(:);
 
