@@ -25,14 +25,24 @@ centroids = zeros(K, n);
 %
 % Note: You can use a for-loop over the centroids to compute this.
 %
-
-
-
-
-
-
-
-
+count = zeros(K, 1);
+for i=1:m
+  %disp("---------------------")
+  %i
+  %disp(" Centroids\n")
+  %centroids(idx(i), :)
+  %disp(" X data\n")
+  %X(i, :)
+  %disp("idx \n")
+  %idx(i)
+  centroids(idx(i), :) = (centroids(idx(i), :) + X(i, :));
+  %disp("After centroids\n")
+  %centroids(idx(i), :)
+  %disp("----------------------")
+  count(idx(i)) += 1;
+endfor
+%count
+centroids = centroids ./ count;
 % =============================================================
 
 
