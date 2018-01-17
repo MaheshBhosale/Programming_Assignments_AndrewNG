@@ -36,9 +36,7 @@ sigma2 = sigma2 ./ m;
 mu1 = 1 / m * sum(X);
 mu = mu1';
 sigma1 = 1 / m * sum((X-mu1).^2);
-sigma2 = sigma1' 
+sigma2 = sigma1';
 
 % =============================================================
-
-
 end
