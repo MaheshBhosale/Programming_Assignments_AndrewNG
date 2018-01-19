@@ -48,7 +48,9 @@ for i=1:num_movies;
 endfor
  J = J ./ 2;
  
-% =============================================================
+%Vectorized implementation of above code
+J = 1 / 2 *sum(sum(R .* (((X * Theta') - Y).^ 2))) + lambda / 2 * ((sum( sum( Theta .^ 2))) + (sum( sum( X  .^ 2)))); 
+ % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
 
